@@ -14,7 +14,7 @@ For the time being, I left out Langchain and vector embeddings to keep it in the
 Here is the export of the requirements in my virtual environment.
 
 ### Requirements
-'''plaintext
+'''
 blinker==1.6.2
 certifi==2023.7.22
 cffi==1.15.1
@@ -59,7 +59,6 @@ yarl==1.9.2
 '''
 Given that this is a big stretch project for me and there are a few moving pieces with Excel, a lot of iterations ensued, so logging is heavily featured.
 '''
-'''python
 # Set the Environments
 …{see the AOAI + Cognitive Search official demo project linked above}
 KB_FIELDS = [
@@ -121,7 +120,6 @@ You will also notice that I added some minor transformation work during the expo
 Next came creating the Index for the Excel files and new JSON objects. First, I enabled the Semantic Search in my Cognitive Search Index.
 Then came building the actual Index. I used C# for this bit. The use of C# stemmed from issues configuring the Azure Search Preview SDK + Python to enable semantic search with my Index. Let’s chalk that up to I didn’t know what I was doing and just needed to make it work in the fastest way possible.
 '''
-'''C#
 using System;
 using Azure;
 using Azure.Search.Documents;
@@ -205,7 +203,7 @@ When configuring the indexer, I used the advanced settings to set the parsing mo
 
 This resulted in a little over 30,000 indexed documents. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet. Given my JSON objects indexed over 30,000 records, I focused on semantic search without vector embeddings for now to reduce the technical lift and time, but I did leave the code there and simply commented out for future iterations. 
 '''
-'''python
+
 # Query Azure Cognitive Search Index
         filter = "category ne '{}'".format(exclude_category.replace("'", "''")) if exclude_category else None
         r = search_client.search(search, 
