@@ -56,7 +56,6 @@ Werkzeug==2.3.7
 xlrd==2.0.1
 yarl==1.9.2
 '''
-'''
 Given that this is a big stretch project for me and there are a few moving pieces with Excel, a lot of iterations ensued, so logging is heavily featured.
 '''
 # Set the Environments
@@ -69,7 +68,6 @@ For credentialing, environmental, variables, and configuring the OpenAI SDK and 
 I needed to index my Excel files in a way that Cognitive Search and AOAI could work together, given the existing demo’s focus on PDF and other file types compatible with Azure Document Intelligence. 
 To handle the compatibility issues that I was running into for Excel I looked at various means data engineers use to handle ETL work and a format that Azure Cognitive Search already handled well. I settled on python + pandas + BytesIO. It seemed the easiest lift and one most would be familiar with. This approach allowed me the ability to export the Excels to structured JSON objects.
 '''
-'''python
 # Iterate over all files in Container
 blobs = container_client.list_blobs()
 for blob in blobs:
@@ -115,7 +113,7 @@ for blob in blobs:
         json_blob_client = blob_service_client.get_blob_client(container=container_name, blob=json_file_name)
         json_blob_client.upload_blob(json_str, overwrite=True)
 '''
-'''
+
 You will also notice that I added some minor transformation work during the export. I interjected these to align with the Cognitive Search expected Index format: primarily the need for Fields to begin with a letter and not special characters or numbers, to not have empty column headers, and to have the UniqueID for each indexed record. I then had the JSON documents uploaded back into a new directory to simplify the Data source and Indexer builds inside of Cognitive Search. 
 Next came creating the Index for the Excel files and new JSON objects. First, I enabled the Semantic Search in my Cognitive Search Index.
 Then came building the actual Index. I used C# for this bit. The use of C# stemmed from issues configuring the Azure Search Preview SDK + Python to enable semantic search with my Index. Let’s chalk that up to I didn’t know what I was doing and just needed to make it work in the fastest way possible.
@@ -198,12 +196,11 @@ namespace AzureSearchSemanticIndexTest
 
 }
 '''
-'''
+
 When configuring the indexer, I used the advanced settings to set the parsing mode to JSON array.
 
 This resulted in a little over 30,000 indexed documents. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet. Given my JSON objects indexed over 30,000 records, I focused on semantic search without vector embeddings for now to reduce the technical lift and time, but I did leave the code there and simply commented out for future iterations. 
 '''
-
 # Query Azure Cognitive Search Index
         filter = "category ne '{}'".format(exclude_category.replace("'", "''")) if exclude_category else None
         r = search_client.search(search, 
@@ -213,7 +210,6 @@ This resulted in a little over 30,000 indexed documents. I tested the ‘*’ qu
                          query_speller="lexicon", 
                          semantic_configuration_name="default", 
                          top=3)
-'''
 '''
 Flask is being used for local testing.
 
