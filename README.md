@@ -7,7 +7,7 @@ Before we begin, it is important to note that this is my first project of this t
 Excel documents are one of the most common data sources in many industries. It is one of my team’s most prolific sources. The ability to chat directly with this data streamlines the decision-making process, reduces the time spent on manual data retrieval and analysis, and – at least for my team – an ability to free up desk space and increase the scale of offerings by providing some self-service data queries for routine updates.
 
 ## Quick Setup
-As with the Azure-Search-OpenAI-Demo project, an Azure subscription with access to Azure OpenAI, a configured Azure Cognitive Search, and an Azure Storage like CosmosDB, Blob, or ADLS Gen 2 resource is necessary. I use ADLS Gen 2 at present. 
+As with the [Azure-Search-OpenAI-Demo](https://github.com/Azure-Samples/azure-search-openai-demo) project, an Azure subscription with access to Azure OpenAI, a configured Azure Cognitive Search, and an Azure Storage like CosmosDB, Blob, or ADLS Gen 2 resource is necessary. I use ADLS Gen 2 at present. 
 
 ## Usage
 For the time being, I left out Langchain and vector embeddings to keep it in the aim small miss small approach and get something working. 
