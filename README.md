@@ -14,8 +14,7 @@ For the time being, I left out Langchain and vector embeddings to keep it in the
 Here is the export of the requirements in my virtual environment.
 
 ### Requirements
-'''
-blinker==1.6.2
+'''blinker==1.6.2
 certifi==2023.7.22
 cffi==1.15.1
 charset-normalizer==3.2.0
@@ -57,8 +56,7 @@ xlrd==2.0.1
 yarl==1.9.2
 '''
 Given that this is a big stretch project for me and there are a few moving pieces with Excel, a lot of iterations ensued, so logging is heavily featured.
-'''
-# Set the Environments
+'''# Set the Environments
 …{see the AOAI + Cognitive Search official demo project linked above}
 KB_FIELDS = [
     "IndexCol1", " IndexCol2", " IndexCol3 IndexCo4", …{truncated for brevity}
