@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Project Title</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='img/background.png') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    
+        h1 {
+            position: absolute;
+            top: 5%;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 50px;
+        }
+    
+        .bot-response {
+            background-color: #e1e1e1;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    
+        .bot-response img {
+            border-radius: 50%;
+            margin-right: 10px;
+            width: 50px; 
+            height: 50px; 
+        }
+    
+        .user-message {
+            background-color: #f1f1f1;
+            text-align: right;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    
+        .chat-container {
+            max-height: 60VH;
+            width: 480px;
+            overflow-y: auto;
+        }
+
+        .chat-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        textarea {
+            width: 480px; /* Slightly less than chat container to account for padding */
+            height: 80px;
+            padding: 10px;
+        }
+
+
+        /* Blinking dots */
+        @keyframes blink {
+            0% {
+                opacity: .2;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: .2;
+            }
+        }
+    
+        #loadingDots span {
+            animation-name: blink;
+            animation-duration: 1.4s;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+        }
+    
+        #loadingDots span:nth-child(2) {
+            animation-delay: .2s;
+        }
+    
+        #loadingDots span:nth-child(3) {
+            animation-delay: .4s;
+        }
+    
+        .typing-avatar {
+            border-radius: 50%;
+            margin-right: 10px;
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+        }
+    
+        #loadingDots {
+            display: flex;
+            align-items: center;
+            background-color: #e1e1e1;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <h1>Welcome to Your Excel Chat App</h1>
+
+    <!-- Wrap everything related to the chat in this container -->
+    <div class="chat-interface">
+        <div class="chat-container">
+            <!-- Chat Messages to go here -->
+            <div class="bot-response">
+                <img src="{{ url_for('static', filename='img/Avatar.png') }}" alt="System Avatar">
+                Hi, I am Your Excel Chatbot. What can I tell you, today?
+            </div>
+        </div>
+        <textarea id="userInput" placeholder="Type your message..."></textarea>
+        <button onclick="submitQuery()">Send</button>
+    </div>
+
+    <!-- Blinking dots outside the chat-interface for now -->
+    <div id="loadingDots" style="display: none;">
+        <img src="{{ url_for('static', filename='img/Avatar.png') }}" alt="System Avatar" class="typing-avatar">
+        <span>.</span><span>.</span><span>.</span>
+    </div>
+
+    <script>
+        const chatbox = document.querySelector(".chat-container");
+        const userInputElem = document.getElementById("userInput");
+        const loadingDots = document.getElementById("loadingDots");
+
+        userInputElem.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                submitQuery();
+            }
+        });
+
+        function submitQuery() {
+            const userInput = userInputElem.value.trim();
+
+            if (userInput === "") return; // prevent empty messages
+
+            chatbox.innerHTML += "<div class='user-message'>" + userInput + "</div>";
+            loadingDots.style.display = "block";  // Show loading dots
+
+            fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'message': userInput
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    chatbox.lastChild.remove();
+                    chatbox.innerHTML += "<div class='bot-response'><img src='{{ url_for('static', filename='img/Avatar.png') }}' alt='Avatar'>" + data.message + "</div>";
+
+                    // Auto-scroll to the latest message
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                    loadingDots.style.display = "none";
+                });
+
+            // Clear the input box
+            userInputElem.value = "";
+        }
+    </script>
+</body>
+
+</html>

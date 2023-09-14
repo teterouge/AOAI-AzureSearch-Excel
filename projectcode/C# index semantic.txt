@@ -1,0 +1,90 @@
+C# index semantic
+
+using System;
+using Azure;
+using Azure.Search.Documents;
+using Azure.Search.Documents.Indexes;
+using Azure.Search.Documents.Indexes.Models;
+using Azure.Search.Documents.Models;
+
+namespace AzureSearchSemanticDemo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string serviceName = "cog-search";
+            string apiKey = "<YOUR-SEARCH-ADMIN-API-KEY>";
+            string indexName = "report-index";
+
+            // Create a SearchIndexClient to send create/delete index commands
+            Uri serviceEndpoint = new Uri($"https://{serviceName}.search.windows.net/");
+            AzureKeyCredential credential = new AzureKeyCredential(apiKey);
+            SearchIndexClient adminClient = new SearchIndexClient(serviceEndpoint, credential);
+
+            // Create a SearchClient to load and query documents
+            SearchClient srchclient = new SearchClient(serviceEndpoint, indexName, credential);
+
+            // Create index
+            Console.WriteLine("{0}", "Creating index...\n");
+            CreateIndex(indexName, adminClient);
+        }
+
+        private static void CreateIndex(string indexName, SearchIndexClient adminClient)
+        {
+            FieldBuilder fieldBuilder = new FieldBuilder();
+            var searchFields = fieldBuilder.Build(typeof(MyIndex));
+
+            var definition = new SearchIndex(indexName, searchFields);
+
+            SemanticSettings semanticSettings = new SemanticSettings();
+            semanticSettings.Configurations.Add(new SemanticConfiguration
+            (
+                "my-semantic-config",
+                new PrioritizedFields()
+                {
+                    TitleField = new SemanticField { FieldName = "ReportName" }, // Ensure all of this matches your JSON exports
+                    ContentFields = {
+                        // Include only fields of type string
+                        new SemanticField { FieldName = "Field1" },
+                        new SemanticField { FieldName = "Field2" },
+                        new SemanticField { FieldName = "Field3" },
+                        //Truncated
+                    },
+                    KeywordFields = {
+                        // Include only fields of type string, or fields you consider to be keywords
+                        new SemanticField { FieldName = "Field1" },
+                        new SemanticField { FieldName = "Field2" },
+                        new SemanticField { FieldName = "Field3" },
+                        //Truncated
+                    }
+                })
+            );
+
+            definition.SemanticSettings = semanticSettings;
+
+            adminClient.CreateOrUpdateIndex(definition);
+        }
+    }
+
+    public class MyIndex
+    {
+        [SearchableField(IsSortable = true, IsFilterable = true)]
+        public string Skills { get; set; }
+
+        [SearchableField(IsSortable = true, IsFilterable = true)]
+        public string Industry { get; set; }
+
+        [SearchableField(IsSortable = true, IsFilterable = true)]
+        public string Schools { get; set; }
+
+        [SimpleField(IsSortable = true, IsFilterable = true)]
+        public int Professionals { get; set; }
+
+	//Truncated
+
+        [SearchableField(IsKey = true, IsSortable = true, IsFilterable = true)]
+        public string UniqueId { get; set; }
+    }
+
+}
