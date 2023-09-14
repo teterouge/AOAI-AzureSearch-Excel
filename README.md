@@ -196,6 +196,7 @@ namespace AzureSearchSemanticIndexTest
 ```
 
 When configuring the indexer, I used the advanced settings to set the parsing mode to JSON array.
+![Parsing as JSON Array in Indexer](images/Report-Indexer.png)
 
 This resulted in a little over 30,000 indexed documents. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet. Given my JSON objects indexed over 30,000 records, I focused on semantic search without vector embeddings for now to reduce the technical lift and time, but I did leave the code there and simply commented out for future iterations. 
 ```python
