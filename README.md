@@ -14,7 +14,8 @@ For the time being, I left out Langchain and vector embeddings to keep it in the
 Here is the export of the requirements in my virtual environment.
 
 ### Requirements
-'''blinker==1.6.2
+```plaintext
+blinker==1.6.2
 certifi==2023.7.22
 cffi==1.15.1
 charset-normalizer==3.2.0
@@ -54,14 +55,14 @@ urllib3==2.0.4
 Werkzeug==2.3.7
 xlrd==2.0.1
 yarl==1.9.2
-'''
+```
 Given that this is a big stretch project for me and there are a few moving pieces with Excel, a lot of iterations ensued, so logging is heavily featured.
-'''# Set the Environments
+```python
+# Set the Environments
 …{see the AOAI + Cognitive Search official demo project linked above}
 KB_FIELDS = [
     "IndexCol1", " IndexCol2", " IndexCol3 IndexCo4", …{truncated for brevity}
-'''
-'''
+```
 For credentialing, environmental, variables, and configuring the OpenAI SDK and Azure Cognitive Search and Storage Clients, I stuck fairly close to the Demo project. Referring back to it was helpful.
 I needed to index my Excel files in a way that Cognitive Search and AOAI could work together, given the existing demo’s focus on PDF and other file types compatible with Azure Document Intelligence. 
 To handle the compatibility issues that I was running into for Excel I looked at various means data engineers use to handle ETL work and a format that Azure Cognitive Search already handled well. I settled on python + pandas + BytesIO. It seemed the easiest lift and one most would be familiar with. This approach allowed me the ability to export the Excels to structured JSON objects.
