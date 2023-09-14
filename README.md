@@ -6,6 +6,13 @@ Before we begin, it is important to note that this is my first project of this t
 ## Why Excel?
 Excel documents are one of the most common data sources in many industries. It is one of my team’s most prolific sources. The ability to chat directly with this data streamlines the decision-making process, reduces the time spent on manual data retrieval and analysis, and – at least for my team – an ability to free up desk space and increase the scale of offerings by providing some self-service data queries for routine updates.
 
+## Key Features
+1.	Data Engineering with Python: Converts Excel sheets into structured JSON documents ready for indexing. Keep in mind the impact this has on your Cognitive Search utilisation.
+2.	Azure Cognitive Search Indexing with C#: Efficiently creates an optimized search index tailored for my Excel data.
+3.	Integration with Azure OpenAI: Using the Azure Samples Demo as the starting point, it combines the power of OpenAI and Azure Cognitive Search to allow for natural language queries on Excel data.
+4.	Flask: A quick Flask app backend with a simple frontend UI for demonstration and further testing and refinement.
+Challenges and Solutions
+
 ## Quick Setup
 As with the [Azure-Search-OpenAI-Demo](https://github.com/Azure-Samples/azure-search-openai-demo) project, an Azure subscription with access to Azure OpenAI, a configured Azure Cognitive Search, and an Azure Storage like CosmosDB, Blob, or ADLS Gen 2 resource is necessary. I use ADLS Gen 2 at present. 
 
@@ -211,13 +218,6 @@ This resulted in a little over 30,000 indexed documents. I tested the ‘*’ qu
                          top=3)
 ```
 Flask is being used for local testing.
-
-## Key Features
-1.	Data Engineering with Python: Converts Excel sheets into structured JSON documents ready for indexing. Keep in mind the impact this has on your Cognitive Search utilisation.
-2.	Azure Cognitive Search Indexing with C#: Efficiently creates an optimized search index tailored for my Excel data.
-3.	Integration with Azure OpenAI: Using the Azure Samples Demo as the starting point, it combines the power of OpenAI and Azure Cognitive Search to allow for natural language queries on Excel data.
-4.	Flask: A quick Flask app backend with a simple frontend UI for demonstration and further testing and refinement.
-Challenges and Solutions
 
 This project is a large stretch for me. It builds from a need to give my team a more scalable means of handling bespoke deliverables for routine update requests from a volume of Excel while having almost no budget. The initial exploration began with the Azure Samples GitHub demo. However, the out-of-the-box approach didn't fit the specific needs of querying Excel data. 
 
