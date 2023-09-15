@@ -11,7 +11,7 @@ Excel documents are one of the most common data sources in many industries. It i
 2.	Azure Cognitive Search Indexing with C#: Efficiently creates an optimized search index tailored for my Excel data.
 3.	Integration with Azure OpenAI: Using the Azure Samples Demo as the starting point, it combines the power of OpenAI and Azure Cognitive Search to allow for natural language queries on Excel data.
 4.	Flask: A quick Flask app backend with a simple frontend UI for demonstration and further testing and refinement.
-Challenges and Solutions
+
 
 ## Quick Setup
 As with the [Azure-Search-OpenAI-Demo](https://github.com/Azure-Samples/azure-search-openai-demo) project, an Azure subscription with access to Azure OpenAI, a configured Azure Cognitive Search, and an Azure Storage like CosmosDB, Blob, or ADLS Gen 2 resource is necessary. I use ADLS Gen 2 at present. 
@@ -219,6 +219,7 @@ This resulted in a little over 30,000 indexed documents. I tested the ‘*’ qu
 ```
 Flask is being used for local testing.
 
+## Challenges and Solutions
 This project is a large stretch for me. It builds from a need to give my team a more scalable means of handling bespoke deliverables for routine update requests from a volume of Excel while having almost no budget. The initial exploration began with the Azure Samples GitHub demo. However, the out-of-the-box approach didn't fit the specific needs of querying Excel data. 
 
 To get started, I could not use the entirety of the cloned repository. I was having too many issues trying to adapt the code as is, so I focused solely on the ChatReadRetrieveRead approach from the Demo by first adapting that Jupyter Notebook to my resources and getting it working.
