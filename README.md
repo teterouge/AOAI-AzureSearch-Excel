@@ -202,7 +202,7 @@ When configuring the indexer, I used the advanced settings to set the parsing mo
 
 This resulted in a little over 30,000 indexed documents. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet. 
 
-It is also important to edit the 'KB' sections to match the structure of the Index. I went with KB_Fields as an array.
+It is also important to edit the 'KB' sections of the code when setting up the variables in your app file to match the structure of the Index. I went with KB_Fields as an array.
 ```python
 # Set the Environments
 …{see the AOAI + Cognitive Search official demo project linked above}
