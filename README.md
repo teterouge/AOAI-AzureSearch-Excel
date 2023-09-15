@@ -64,12 +64,7 @@ xlrd==2.0.1
 yarl==1.9.2
 ```
 Given that this is a big stretch project for me and there are a few moving pieces with Excel, a lot of iterations ensued, so logging is heavily featured.
-```python
-# Set the Environments
-…{see the AOAI + Cognitive Search official demo project linked above}
-KB_FIELDS = [
-    "IndexCol1", " IndexCol2", " IndexCol3 IndexCo4", …{truncated for brevity}
-```
+
 For credentialing, environmental, variables, and configuring the OpenAI SDK and Azure Cognitive Search and Storage Clients, I stuck fairly close to the Demo project. Referring back to it was helpful.
 I needed to index my Excel files in a way that Cognitive Search and AOAI could work together, given the existing demo’s focus on PDF and other file types compatible with Azure Document Intelligence. 
 To handle the compatibility issues that I was running into for Excel I looked at various means data engineers use to handle ETL work and a format that Azure Cognitive Search already handled well. I settled on python + pandas + BytesIO. It seemed the easiest lift and one most would be familiar with. This approach allowed me the ability to export the Excels to structured JSON objects.
@@ -205,7 +200,16 @@ namespace AzureSearchSemanticIndexTest
 When configuring the indexer, I used the advanced settings to set the parsing mode to JSON array.
 ![Parsing as JSON Array in Indexer](images/Report-Indexer.png)
 
-This resulted in a little over 30,000 indexed documents. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet. Given my JSON objects indexed over 30,000 records, I focused on semantic search without vector embeddings for now to reduce the technical lift and time, but I did leave the code there and simply commented out for future iterations. 
+This resulted in a little over 30,000 indexed documents. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet. 
+
+It is also important to edit the 'KB' sections to match the structure of the Index. I went with KB_Fields as an array.
+```python
+# Set the Environments
+…{see the AOAI + Cognitive Search official demo project linked above}
+KB_FIELDS = [
+    "IndexCol1", " IndexCol2", " IndexCol3 IndexCo4", …{truncated for brevity}
+```
+Given my JSON objects indexed over 30,000 records, I focused on semantic search without vector embeddings for now to reduce the technical lift and time, but I did leave the code there and simply commented out for future iterations. 
 ```python
 # Query Azure Cognitive Search Index
         filter = "category ne '{}'".format(exclude_category.replace("'", "''")) if exclude_category else None
