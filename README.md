@@ -216,7 +216,7 @@ When configuring the indexer, I used the advanced settings to set the parsing mo
 ![Parsing as JSON Array in Indexer](images/Report-Indexer.png)
 
 
-This resulted in a little over 30,000 indexed documents. Each 'document' indexed is the result of each row of each sheet across my entire test set of Excel files representing a single "document." So, a single Excel file with 2 tabs at 100 rows each becomes 200 individual "documents" indexed into COgnitive Search. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet.
+This resulted in a little over 30,000 indexed documents. Each 'document' indexed is the result of each row of each sheet across my entire test set of Excel files representing a single "document." So, a single Excel file with 2 tabs at 100 rows each becomes 200 individual "documents" indexed into Cognitive Search. I tested the ‘*’ query in my Index to make sure it was returning the unique records of the JSON objects with all fields populated with either the data for the original Excel Sheet and Column or ‘null’ where the column was not present in any specific Excel Sheet.
 
 Here is what one of those records look like when searched in Cog Search:
 
