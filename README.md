@@ -269,7 +269,7 @@ It is also important to edit the 'KB' sections of the code when setting up the v
 # Set the Environments
 …{see the AOAI + Cognitive Search official demo project linked above}
 KB_FIELDS = [
-    "IndexCol1", " IndexCol2", " IndexCol3 IndexCo4", …{truncated for brevity}
+    "Field1", " Field2", "Field3", Field4", …{truncated for brevity}
 ```
 Given my JSON objects indexed as 30,000+ records, I focused on semantic search without vector embeddings for now to reduce the technical lift and time, but I did leave the code there and simply commented out for future iterations. 
 ```python
@@ -286,14 +286,14 @@ Given my JSON objects indexed as 30,000+ records, I focused on semantic search w
 Flask is being used for local testing.
 
 ## Current Results
-Presently, I am able to created NLP queries that would be common to my Excel Data - e.g. "Tell me about Titles...{w/e is relevant}..." - and I get responses that can be along the lines of "There are some variables, but Based on SheetName - FileName1 [source1] There is XXX information on Titles..." Depending on the question, it will give me answers that are relevant based on another Record - e.g. SheetName - FileName2 [source2]." 
+Presently, I am able to create NLP queries that would be common to my Excel Data - e.g. "Tell me about Titles...{w/e is relevant}..." - and I get responses that can be along the lines of "There are some variables, but Based on SheetName - FileName1 [source1] There is XXX information on Titles..." Depending on the question, it will give me answers that are relevant based on another Record - e.g. SheetName - FileName2 [source2]." 
 
-By parsing out the sheet name and file names; appending them to every row as new columns; and aligning the Index Fields and Semantic Configurations, I was able to create that source name from the records. For QA purposes, I am then able to know exactly which Excel file and Sheet any particular answer is derived, allowing me to verify accuracy simply by opening the Excel file, navigating to the Sheet and verify that AOAI pulled the correct column and row value that matched the original query. I am waiting for approval on whether or not I can share a screencap of the results via my Flask app given the details it shows. Should I get approval, I will add that image. 
+By parsing out the sheet name and file names; appending them to every row as new columns; and aligning the Index Fields and Semantic Configurations, I was able to create that source name from the records. For QA purposes, I am then able to know exactly which Excel file and Sheet any particular answer is derived, allowing me to verify accuracy simply by opening the Excel file, navigating to the Sheet, and verifying that AOAI pulled the correct column and row value that matched the original query. I am waiting for approval on whether or not I can share a screencap of the results via my Flask app given the details it shows. Should I get approval, I will add that image. 
 
-I have successful results; however, there are limitations in the current application. Specifically, it struggles with relating records from the same Excel file that are located on different Sheets. E.g. If I have the same Field of Study on two different Sheets of the same file, it will not always find those two things as being related and require either a follow-up query or a new query specific to that other Sheet. I suspect without either a vector database, vector embeddings, and/or prompt engineering this will not be resolved. 
+I have successful results; however, there are limitations in the current application. Specifically, it struggles with relating records from the same Excel file that are located on different Sheets. E.g. If I have the same "Field of Study" column on two different Sheets of the same file, it will not always find those two things as being related and require either a follow-up query or a new query specific to that other Sheet. I suspect without either a vector database, vector embeddings, and/or prompt engineering this will not be resolved. 
 
 ## Challenges and Solutions
-This project is a large stretch for me. It builds from a need to give my team a more scalable means of handling bespoke deliverables for routine update requests from a volume of Excel while having almost no budget. The initial exploration began with the Azure Samples GitHub demo. However, the out-of-the-box approach didn't fit the specific needs of querying Excel data. 
+There was a lot of trial and error here, as evidenced by the logging. It builds from a need to give my team a more scalable means of handling bespoke deliverables for routine update requests from a volume of Excel while having almost no budget. The initial exploration began with the Azure Samples GitHub demo. However, the out-of-the-box approach didn't fit the specific needs of querying Excel data. 
 
 To get started, I could not use the entirety of the cloned repository. I was having too many issues trying to adapt the code as is, so I focused solely on the ChatReadRetrieveRead approach from the Demo by first adapting that Jupyter Notebook to my resources and getting it working.
 
@@ -303,6 +303,7 @@ Next steps here are to go back and add some prompt engineering and vector search
 ## Contributions
 
 The project is in its early stages and while functional, it has room for optimization and additional features. Contributions are very welcome! If you find any bugs or have suggestions for improvements, please create an issue or submit a pull request.
+
 ## Acknowledgements
 
 I am not a software engineer by any standard but have a background in data and intelligence systems. This project was a learning experience, and the code, while functional, definitely will benefit from refinement. I encourage contributions and feedback to make this a more robust solution for everyone. Without the team that created the demo to work from and some butchering on my part, this would have taken me a lot longer.
